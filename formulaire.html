@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Ajout Pompier</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="p-4">
+
+<div class="container">
+  <h1 class="mb-4">Ajout Pompier</h1>
+
+  <form id="formPompier" novalidate>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="matricule" class="form-label">Matricule</label>
+        <input type="number" class="form-control" id="matricule" name="matricule" placeholder="Ex : 876524" required min="1">
+        <div class="invalid-feedback">Le matricule est obligatoire</div>
+      </div>
+      <div class="col-md-6">
+        <label for="dateNaissance" class="form-label">Date de Naissance</label>
+        <input type="date" class="form-control" id="dateNaissance" name="dateNaissance" required>
+        <div class="invalid-feedback">La date de naissance est obligatoire</div>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="nom" class="form-label">Nom</label>
+        <input type="text" class="form-control" id="nom" name="nom" required>
+        <div class="invalid-feedback">Le nom du pompier est obligatoire</div>
+      </div>
+      <div class="col-md-6">
+        <label for="prenom" class="form-label">Prénom</label>
+        <input type="text" class="form-control" id="prenom" name="prenom" required>
+        <div class="invalid-feedback">Le prénom du pompier est obligatoire</div>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="form-label d-block">Sexe :</label>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="sexe" id="sexeF" value="féminin" required>
+          <label class="form-check-label" for="sexeF">féminin</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="sexe" id="sexeM" value="masculin" required>
+          <label class="form-check-label" for="sexeM">masculin</label>
+        </div>
+        <div class="text-danger small" id="sexeError" style="display:none;">Le sexe du pompier est obligatoire</div>
+      </div>
+      <div class="col-md-6">
+        <label for="grade" class="form-label">Grade</label>
+        <select class="form-select" id="grade" name="grade" required>
+          <option value="" selected disabled>-- Choisir --</option>
+          <option value="1">Auxiliaire</option>
+          <option value="2">Sapeur 2ème classe</option>
+          <option value="3">Sapeur 1ère classe</option>
+          <option value="4">Caporal</option>
+          <option value="5">Caporal-chef</option>
+          <option value="6">Sergent</option>
+          <option value="7">Sergent-chef</option>
+          <option value="8">Adjudant</option>
+          <option value="9">Adjudant-chef</option>
+          <option value="10">Lieutenant</option>
+          <option value="11">Capitaine</option>
+          <option value="12">Commandant</option>
+          <option value="13">Lieutenant-colonel</option>
+        </select>
+        <div class="invalid-feedback">Le grade est obligatoire</div>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="telephone" class="form-label">Téléphone</label>
+        <input type="tel" class="form-control" id="telephone" name="telephone" pattern="^[0-9]{10}$">
+        <div class="invalid-feedback">Le téléphone doit contenir 10 chiffres</div>
+      </div>
+      <div class="col-md-6">
+        <label for="caserne" class="form-label">Caserne</label>
+        <select class="form-select" id="caserne" name="caserne" required>
+          <option value="" selected disabled>-- Choisir --</option>
+          <option value="1">Ouessant</option>
+          <option value="2">Carcassonne</option>
+          <option value="3">Lille</option>
+        </select>
+        <div class="invalid-feedback">La caserne est obligatoire</div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label d-block">Type pompier :</label>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="typePompier" id="typePro" value="professionnel" required>
+        <label class="form-check-label" for="typePro">Professionnel</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="typePompier" id="typeVol" value="volontaire" required>
+        <label class="form-check-label" for="typeVol">Volontaire</label>
+      </div>
+      <div class="text-danger small" id="typeError" style="display:none;">Le type de pompier est obligatoire</div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Valider</button>
+    <div id="resultat" class="mt-3"></div>
+
+  </form>
+</div>
+
+<script>
+const form = document.getElementById('formPompier');
+
+
+form.addEventListener('submit', function (e) {
+  e.preventDefault();
+  e.stopPropagation();
+
+  form.classList.add('was-validated');
+
+  // Bootstrap ne gère pas nativement les groupes de radio -> vérif manuelle
+  const sexeChecked = form.querySelector('input[name="sexe"]:checked');
+  document.getElementById('sexeError').style.display = sexeChecked ? 'none' : 'block';
+
+  const typeChecked = form.querySelector('input[name="typePompier"]:checked');
+  document.getElementById('typeError').style.display = typeChecked ? 'none' : 'block';
+
+  if (form.checkValidity() && sexeChecked && typeChecked) {
+    document.getElementById('resultat').innerHTML = '<div class="alert alert-success">OK</div>';
+    // form.submit() se fera vers le PHP à l'étape suivante
+  } else {
+    document.getElementById('resultat').innerHTML = '';
+  }
+});
+</script>
+
+</body>
+</html>
