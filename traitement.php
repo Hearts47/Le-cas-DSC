@@ -92,10 +92,6 @@ if ($typePompier === '') {
 
 <?php if (empty($erreurs)): ?>
 
-    <div class="alert alert-success">Pompier ajouté avec succès</div>
-
-<?php else: ?>
-
      <?php
     try {
 
@@ -105,8 +101,10 @@ if ($typePompier === '') {
     } catch (PDOException $e) {
         $erreurs[] = "Une erreur est survenue lors de l'insersion.";
     }
-    
     ?>
+    <div class="alert alert-success">Pompier ajouté avec succès</div>
+
+<?php else: ?>
 
     <div class="alert alert-danger">
         <strong>Le formulaire contient des erreurs :</strong>
