@@ -1,5 +1,5 @@
 <?php
-require 'connexion.php';
+require_once 'connexion.php';
 
 // Récupération des grades
 $stmtGrade = $pdo->query("SELECT idgrade, libgrade FROM grade ORDER BY idgrade");
@@ -79,8 +79,8 @@ $casernes = $stmtCaserne->fetchAll(PDO::FETCH_ASSOC);
       <div class="row mb-3">
         <div class="col-md-6">
           <label for="telephone" class="form-label">Téléphone</label>
-          <input type="tel" class="form-control" id="telephone" name="telephone" pattern="^[0-9]{10}$">
-          <div class="invalid-feedback">Le téléphone doit contenir 10 chiffres</div>
+          <input type="tel" class="form-control" id="telephone" name="telephone" pattern="^[0-9]{10}$" required>
+          <div class="invalid-feedback">Un numéro de téléphone valide est requis</div>
         </div>
         <div class="col-md-6">
           <label for="caserne" class="form-label">Caserne</label>

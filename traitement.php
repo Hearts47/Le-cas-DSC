@@ -1,5 +1,5 @@
 <?php
-
+require_once 'connexion.php';
 // Tableau pour stocker les erreurs
 $erreurs = [];
 
@@ -57,8 +57,9 @@ if ($grade === '') {
     $erreurs[] = "Le grade sélectionné n'est pas valide";
 }
 
-// --- Téléphone : facultatif, mais si rempli, doit faire 10 chiffres ---
-if ($telephone !== '' && !preg_match('/^[0-9]{10}$/', $telephone)) {
+if ($telephone === '') {
+    $erreurs[] = "Le téléphone est obligatoire";
+} elseif (!preg_match('/^[0-9]{10}$/', $telephone)) {
     $erreurs[] = "Le téléphone doit contenir 10 chiffres";
 }
 
@@ -91,9 +92,21 @@ if ($typePompier === '') {
 
 <?php if (empty($erreurs)): ?>
 
-    <div class="alert alert-success">OK</div>
+    <div class="alert alert-success">Pompier ajouté avec succès</div>
 
 <?php else: ?>
+
+     <?php
+    try {
+
+    $stmt = $pdo->prepare("INSERT INTO pompier (matricule, nompompier, prenompompier, datenaisspompier, telpompier, sexepompier, idgrade) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt->execute([$matricule, $nom, $prenom, $dateNaissance, $telephone, $sexe, $grade]);
+    
+    } catch (PDOException $e) {
+        $erreurs[] = "Une erreur est survenue lors de l'insersion.";
+    }
+    
+    ?>
 
     <div class="alert alert-danger">
         <strong>Le formulaire contient des erreurs :</strong>
@@ -106,7 +119,7 @@ if ($typePompier === '') {
 
 <?php endif; ?>
 
-<a href="formulaire.html" class="btn btn-secondary">Retour au formulaire</a>
+<a href="formulaire.php" class="btn btn-secondary">Retour au formulaire</a>
 
 </div>
 </body>
