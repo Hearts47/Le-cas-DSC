@@ -34,6 +34,16 @@ $typesEngins = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         <h1 class="mb-2">Types d'engins</h1>
 
+        <a href="ajouterTypeEngin.php" class="btn btn-primary mb-4">
+            Ajouter un type d'engin
+        </a>
+
+        <?php if (isset($_GET['ajout']) && $_GET['ajout'] === 'ok'): ?>
+            <div class="alert alert-success">
+                Le type d'engin a été ajouté avec succès.
+            </div>
+        <?php endif; ?>
+
         <p class="text-secondary mb-4">
             Liste des différents types d'engins de la caserne.
         </p>
