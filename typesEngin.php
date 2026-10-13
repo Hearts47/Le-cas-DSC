@@ -2,7 +2,6 @@
 
 require_once 'connexion.php';
 
-// Récupérer les types d'engins depuis la base de données
 $stmt = $pdo->query(
     "SELECT idtypeengin, libengincol
      FROM TypeEngin
@@ -19,43 +18,72 @@ $typesEngins = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Types d'engins - DSC</title>
+
+    <!-- Bootstrap 5.3.3 -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
 </head>
 
-<body>
+<body class="bg-light">
 
-    <h1>Liste des types d'engins</h1>
+    <main class="container py-5">
 
-    <?php if (count($typesEngins) > 0): ?>
+        <h1 class="mb-2">Types d'engins</h1>
 
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>Code</th>
-                    <th>Libellé</th>
-                </tr>
-            </thead>
+        <p class="text-secondary mb-4">
+            Liste des différents types d'engins de la caserne.
+        </p>
 
-            <tbody>
-                <?php foreach ($typesEngins as $engin): ?>
-                    <tr>
-                        <td>
-                            <?= htmlspecialchars($engin['idtypeengin']) ?>
-                        </td>
+        <?php if (count($typesEngins) > 0): ?>
 
-                        <td>
-                            <?= htmlspecialchars($engin['libengincol']) ?>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+            <div class="card shadow-sm">
+                <div class="card-body">
 
-    <?php else: ?>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover align-middle mb-0">
 
-        <p>Aucun type d'engin n'a été trouvé.</p>
+                            <thead class="table-dark">
+                                <tr>
+                                    <th scope="col">Code</th>
+                                    <th scope="col">Libellé</th>
+                                </tr>
+                            </thead>
 
-    <?php endif; ?>
+                            <tbody>
+                                <?php foreach ($typesEngins as $engin): ?>
+                                    <tr>
+                                        <td>
+                                            <strong>
+                                                <?= htmlspecialchars($engin['idtypeengin']) ?>
+                                            </strong>
+                                        </td>
+
+                                        <td>
+                                            <?= htmlspecialchars($engin['libengincol']) ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+        <?php else: ?>
+
+            <div class="alert alert-info">
+                Aucun type d'engin n'a été trouvé.
+            </div>
+
+        <?php endif; ?>
+
+    </main>
 
 </body>
 
